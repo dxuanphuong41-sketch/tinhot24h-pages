@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TikTok Callback - tinhot24h</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(135deg, #09152c, #163d8f);
+      color: white;
+    }
+    .panel {
+      width: min(700px, calc(100% - 32px));
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 24px;
+      padding: 28px;
+      backdrop-filter: blur(10px);
+    }
+    h1 { margin-top: 0; }
+    pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: rgba(0,0,0,0.25);
+      padding: 14px;
+      border-radius: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <h1>TikTok OAuth Callback</h1>
+    <p>Trang này dùng để nhận phản hồi đăng nhập TikTok cho ứng dụng <strong>tinhot24h</strong>.</p>
+    <p>Nếu bạn thấy mã <code>code</code> hoặc <code>state</code> trên URL, điều đó có nghĩa là TikTok đã redirect thành công.</p>
+    <pre id="debug">Dang cho du lieu callback...</pre>
+  </div>
+  <script>
+    const debug = document.getElementById("debug");
+    const params = new URLSearchParams(window.location.search);
+    const entries = [...params.entries()];
+    debug.textContent = entries.length
+      ? entries.map(([k, v]) => `${k}: ${v}`).join("\n")
+      : "Khong co query param nao tren URL.";
+  </script>
+</body>
+</html>
