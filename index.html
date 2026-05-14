@@ -3,39 +3,48 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="tinhot24h là ứng dụng desktop hỗ trợ chủ kênh tạo, quản lý và tải video ngắn lên TikTok dưới dạng bản nháp.">
-  <title>tinhot24h - Short Video Publishing Workspace</title>
+  <meta name="description" content="tinhot24h is a short-video publishing workspace for the Lướt Mạng Có Chuyện channel. It helps the creator review and upload approved videos to TikTok drafts.">
+  <title>tinhot24h - TikTok Draft Upload Workspace</title>
+  <link rel="icon" type="image/png" href="favicon.png">
   <style>
     :root {
-      --bg: #071225;
-      --panel: #102442;
-      --panel-2: #f7f2e8;
-      --text: #f8fbff;
-      --ink: #172033;
-      --muted: #aebbd2;
-      --muted-dark: #59677f;
-      --accent: #ffd43b;
-      --accent-2: #1d6fff;
-      --line: rgba(255,255,255,0.12);
+      --bg: #f6f8fb;
+      --ink: #121826;
+      --muted: #5f6b7a;
+      --panel: #ffffff;
+      --line: #dce3ed;
+      --soft: #edf2f7;
+      --red: #ff3b5f;
+      --cyan: #19d4ee;
+      --green: #13a874;
+      --yellow: #f7b731;
+      --blue: #246bfe;
+      --shadow: 0 14px 36px rgba(18, 24, 38, 0.10);
     }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       font-family: "Segoe UI", Arial, sans-serif;
-      background:
-        radial-gradient(circle at 20% 0%, rgba(29,111,255,0.44), transparent 32%),
-        radial-gradient(circle at 90% 12%, rgba(255,212,59,0.2), transparent 26%),
-        linear-gradient(180deg, #071225 0%, #0a1731 58%, #f7f2e8 58%, #f7f2e8 100%);
-      color: var(--text);
+      background: var(--bg);
+      color: var(--ink);
     }
     a { color: inherit; }
+    .topbar {
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.92);
+      position: sticky;
+      top: 0;
+      z-index: 4;
+      backdrop-filter: blur(14px);
+    }
     .nav {
-      max-width: 1120px;
+      max-width: 1180px;
       margin: 0 auto;
-      padding: 22px 22px 0;
+      padding: 14px 20px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       gap: 16px;
     }
     .brand {
@@ -43,311 +52,455 @@
       align-items: center;
       gap: 12px;
       font-weight: 800;
-      letter-spacing: 0.01em;
+      min-width: 190px;
     }
-    .mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, var(--accent), #ff4b1f);
-      color: #071225;
-      box-shadow: 0 12px 30px rgba(255, 95, 31, 0.22);
+    .brand img {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      object-fit: cover;
     }
     .nav-links {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
+      justify-content: flex-end;
       color: var(--muted);
       font-size: 14px;
     }
     .nav-links a {
       text-decoration: none;
-      padding: 9px 12px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(255,255,255,0.04);
-    }
-    .wrap {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 38px 22px 76px;
-    }
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
-      gap: 24px;
-      align-items: stretch;
-    }
-    .hero-main, .demo, .card, .section {
-      border-radius: 28px;
-      border: 1px solid var(--line);
-      box-shadow: 0 20px 70px rgba(0,0,0,0.24);
-    }
-    .hero-main {
-      padding: 42px;
-      background: rgba(16, 36, 66, 0.9);
-    }
-    .tag {
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-      padding: 8px 14px;
-      border-radius: 999px;
-      color: var(--accent);
-      background: rgba(255,212,59,0.11);
-      font-size: 12px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-    h1 {
-      margin: 18px 0 16px;
-      font-size: clamp(42px, 8vw, 82px);
-      line-height: 0.95;
-      letter-spacing: -0.06em;
-    }
-    .lead {
-      max-width: 710px;
-      color: #d9e2f4;
-      line-height: 1.75;
-      font-size: 18px;
-      margin: 0;
-    }
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 28px;
-    }
-    .button {
-      text-decoration: none;
-      font-weight: 800;
-      border-radius: 15px;
-      padding: 13px 18px;
-      background: var(--accent);
-      color: #071225;
-    }
-    .button.secondary {
-      background: rgba(255,255,255,0.08);
-      color: var(--text);
-      border: 1px solid var(--line);
-    }
-    .demo {
-      background: linear-gradient(160deg, rgba(255,212,59,0.96), rgba(255,80,47,0.88));
-      color: #071225;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 420px;
-      overflow: hidden;
-      position: relative;
-    }
-    .demo:before {
-      content: "";
-      position: absolute;
-      inset: -70px -90px auto auto;
-      width: 260px;
-      height: 260px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.26);
-    }
-    .phone {
-      position: relative;
-      z-index: 1;
-      background: #071225;
-      border: 8px solid rgba(255,255,255,0.75);
-      border-radius: 34px;
-      padding: 20px;
-      color: white;
-      min-height: 300px;
-      box-shadow: 0 25px 40px rgba(0,0,0,0.28);
-    }
-    .video-line {
-      height: 16px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.16);
-      margin: 14px 0;
-    }
-    .caption {
-      margin-top: 18px;
-      font-size: 22px;
-      line-height: 1.12;
-      font-weight: 900;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-      margin-top: 24px;
-    }
-    .card {
-      padding: 24px;
-      background: rgba(16, 36, 66, 0.88);
-    }
-    .card h2, .card h3 {
-      margin: 0 0 10px;
-      font-size: 21px;
-    }
-    .card p, .section p, li {
-      color: var(--muted);
-      line-height: 1.72;
-      font-size: 16px;
-    }
-    .section {
-      margin-top: 24px;
-      padding: 30px;
-      background: #ffffff;
-      color: var(--ink);
-      box-shadow: 0 18px 50px rgba(23, 32, 51, 0.12);
-    }
-    .section h2 {
-      margin: 0 0 12px;
-      font-size: 30px;
-      letter-spacing: -0.03em;
-    }
-    .section p, .section li { color: var(--muted-dark); }
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 20px;
-    }
-    .step {
-      border: 1px solid #e2e7f0;
-      border-radius: 20px;
-      padding: 18px;
-      background: #fbfcff;
-    }
-    .num {
-      width: 32px;
-      height: 32px;
-      display: grid;
-      place-items: center;
-      border-radius: 11px;
-      background: #102442;
-      color: var(--accent);
-      font-weight: 900;
-      margin-bottom: 12px;
-    }
-    .footer {
-      color: #6b7486;
-      padding: 28px 0 0;
-      font-size: 14px;
-    }
-    code {
-      background: #eef2fa;
-      color: #102442;
-      padding: 3px 7px;
+      padding: 8px 10px;
       border-radius: 8px;
     }
-    @media (max-width: 860px) {
-      .hero, .grid, .steps { grid-template-columns: 1fr; }
-      .hero-main { padding: 30px; }
+    .nav-links a:hover { background: var(--soft); color: var(--ink); }
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 22px 20px 56px;
+    }
+    .hero {
+      min-height: calc(100vh - 84px);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 420px;
+      gap: 22px;
+      align-items: stretch;
+    }
+    .hero-copy {
+      padding: 42px 0 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 4px rgba(19, 168, 116, 0.13);
+    }
+    h1 {
+      margin: 18px 0 14px;
+      max-width: 720px;
+      font-size: clamp(38px, 7vw, 74px);
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+    .lead {
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.7;
+      margin: 0;
+    }
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 14px;
+      background: #fff;
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 800;
+      cursor: pointer;
+      font: inherit;
+    }
+    .btn.primary {
+      border-color: #111827;
+      background: #111827;
+      color: #fff;
+    }
+    .btn.tiktok {
+      border-color: #111827;
+      background: linear-gradient(90deg, #111827 0%, #161b2b 100%);
+      color: #fff;
+    }
+    .btn[disabled] {
+      cursor: not-allowed;
+      opacity: 0.58;
+    }
+    .app {
+      align-self: center;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .app-head {
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfe;
+    }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .app-body { padding: 16px; }
+    .field {
+      display: grid;
+      gap: 7px;
+      margin-bottom: 12px;
+    }
+    label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+    input, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 11px 12px;
+      font: inherit;
+      color: var(--ink);
+      background: #fff;
+    }
+    textarea {
+      min-height: 86px;
+      resize: vertical;
+    }
+    .hint {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .video-row {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+      margin: 12px 0;
+    }
+    .thumb {
+      aspect-ratio: 9 / 16;
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(25, 212, 238, 0.86), rgba(255, 59, 95, 0.82)),
+        linear-gradient(180deg, #151b2b, #2b3245);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 900;
+      padding: 8px;
+    }
+    .meter {
+      height: 8px;
+      background: var(--soft);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 10px 0 4px;
+    }
+    .meter span {
+      display: block;
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--cyan), var(--red));
+      transition: width 0.4s ease;
+    }
+    .sections {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+    .section {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 22px;
+      box-shadow: 0 8px 22px rgba(18, 24, 38, 0.05);
+    }
+    .section h2 {
+      margin: 0 0 10px;
+      font-size: 25px;
+      letter-spacing: 0;
+    }
+    .section p, .section li {
+      color: var(--muted);
+      line-height: 1.68;
+      font-size: 16px;
+    }
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .step {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fbfcfe;
+    }
+    .step strong { display: block; margin-bottom: 6px; }
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 8px;
+      background: #eaf7f2;
+      color: #087452;
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+    code {
+      background: #eef2f7;
+      border: 1px solid #dbe3ee;
+      border-radius: 6px;
+      padding: 2px 5px;
+    }
+    .footer {
+      color: var(--muted);
+      font-size: 14px;
+      padding: 24px 0 0;
+    }
+    @media (max-width: 940px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-copy { padding-top: 28px; }
+      .app { align-self: stretch; }
+      .workflow { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 620px) {
       .nav { align-items: flex-start; flex-direction: column; }
+      .nav-links { justify-content: flex-start; }
+      .workflow, .video-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <nav class="nav" aria-label="Main navigation">
-    <div class="brand"><span class="mark">24</span><span>tinhot24h</span></div>
-    <div class="nav-links">
-      <a href="#features">Features</a>
-      <a href="#workflow">Workflow</a>
-      <a href="#tiktok">TikTok API Use</a>
-      <a href="./privacy.html">Privacy</a>
-      <a href="./terms.html">Terms</a>
-    </div>
-  </nav>
+  <header class="topbar">
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="#top" aria-label="tinhot24h home">
+        <img src="logo.png" alt="tinhot24h logo">
+        <span>tinhot24h</span>
+      </a>
+      <div class="nav-links">
+        <a href="#demo">Demo</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#tiktok-api">TikTok API</a>
+        <a href="./privacy.html">Privacy</a>
+        <a href="./terms.html">Terms</a>
+      </div>
+    </nav>
+  </header>
 
-  <main class="wrap">
+  <main id="top" class="wrap">
     <section class="hero">
-      <div class="hero-main">
-        <span class="tag">Short video publishing workspace</span>
-        <h1>tinhot24h</h1>
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="dot"></span> Creator-operated publishing workspace</span>
+        <h1>tinhot24h helps review and upload short videos to TikTok drafts.</h1>
         <p class="lead">
-          tinhot24h is a desktop workflow used by the owner of the channel
-          <strong>Lướt Mạng Có Chuyện</strong> to create, review, and upload short-form videos.
-          The application helps prepare commentary scripts, Vietnamese narration, subtitles,
-          visual branding, and platform-ready video exports before the creator publishes them.
+          tinhot24h is the production workspace for the Vietnamese channel
+          <strong>Lướt Mạng Có Chuyện</strong>. The creator generates a short video locally,
+          reviews the narration, captions and metadata, then uses TikTok Login Kit and the
+          Content Posting API to upload the approved file as a draft.
         </p>
-        <div class="actions">
-          <a class="button" href="#workflow">View workflow</a>
-          <a class="button secondary" href="#tiktok">TikTok integration</a>
-          <a class="button secondary" href="./callback/">OAuth callback</a>
+        <div class="cta-row">
+          <a class="btn primary" href="#demo">Open TikTok review demo</a>
+          <a class="btn" href="./callback/">View OAuth callback</a>
         </div>
       </div>
-      <aside class="demo" aria-label="Product preview">
-        <div class="phone">
-          <div class="video-line" style="width:45%"></div>
-          <div class="video-line" style="width:78%"></div>
-          <div class="video-line" style="width:60%"></div>
-          <div class="caption">Create. Review. Upload as draft.</div>
+
+      <section id="demo" class="app" aria-label="TikTok integration demo">
+        <div class="app-head">
+          <strong>TikTok Draft Upload Demo</strong>
+          <span class="status"><span class="dot"></span><span id="authStatus">Ready</span></span>
         </div>
-        <p><strong>Purpose:</strong> assist one channel owner with a local video production and TikTok upload workflow.</p>
-      </aside>
+        <div class="app-body">
+          <div class="field">
+            <label for="clientKey">TikTok Client Key</label>
+            <input id="clientKey" autocomplete="off" placeholder="Paste the public Client Key for the TikTok app">
+            <p class="hint">The Client Key is public OAuth configuration. The Client Secret is never stored on this website.</p>
+          </div>
+          <div class="field">
+            <label for="redirectUri">Redirect URI used in TikTok Developer Portal</label>
+            <input id="redirectUri" value="https://dxuanphuong41-sketch.github.io/tinhot24h-pages/callback/">
+          </div>
+          <div class="cta-row">
+            <button class="btn tiktok" id="loginBtn" type="button">Login with TikTok</button>
+            <button class="btn" id="saveBtn" type="button">Save demo settings</button>
+          </div>
+
+          <div class="video-row">
+            <div class="thumb">9:16<br>Short<br>Video</div>
+            <div>
+              <strong>Creator-approved video draft</strong>
+              <p class="hint">Example file: <code>u17-vietnam-world-cup-short.mp4</code>. In production this file is created by the local desktop pipeline and checked by the channel owner before upload.</p>
+              <div class="meter" aria-label="Upload progress"><span id="progressBar"></span></div>
+              <p class="hint" id="uploadStatus">Waiting for creator approval.</p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="caption">Draft caption prepared by creator</label>
+            <textarea id="caption">U17 Việt Nam dự World Cup: khoảnh khắc tự hào của bóng đá trẻ Việt Nam. #LuotMangCoChuyen #Shorts #U17VietNam</textarea>
+          </div>
+          <button class="btn primary" id="uploadBtn" type="button">Simulate approved draft upload</button>
+          <p class="hint">This public page demonstrates the user flow for review. The real upload call runs in the desktop bot after OAuth token exchange.</p>
+        </div>
+      </section>
     </section>
 
-    <section id="features" class="grid">
-      <article class="card">
-        <h2>Video preparation</h2>
-        <p>Combine public or user-provided source material with a short Vietnamese commentary script, captions, and brand overlays.</p>
-      </article>
-      <article class="card">
-        <h2>Creator review</h2>
-        <p>Generated videos remain under the creator's control. The owner reviews output, metadata, and platform requirements before posting.</p>
-      </article>
-      <article class="card">
-        <h2>Platform export</h2>
-        <p>Export vertical short videos suitable for social platforms, including YouTube Shorts and TikTok draft upload flows.</p>
-      </article>
-    </section>
+    <div class="sections">
+      <section id="workflow" class="section">
+        <h2>End-to-end creator workflow</h2>
+        <p>
+          The application is operated by the channel owner, not by anonymous public users. It keeps publishing decisions under creator review.
+        </p>
+        <div class="workflow">
+          <div class="step"><span class="badge">Step 1</span><strong>Select source</strong><p>The creator enters a link or topic for a short news-style video.</p></div>
+          <div class="step"><span class="badge">Step 2</span><strong>Render video</strong><p>The local pipeline prepares narration, subtitles, visuals and metadata.</p></div>
+          <div class="step"><span class="badge">Step 3</span><strong>Review</strong><p>The creator checks quality, source context, title, caption and hashtags.</p></div>
+          <div class="step"><span class="badge">Step 4</span><strong>Upload draft</strong><p>The approved video is uploaded to TikTok as a draft for final posting in TikTok.</p></div>
+        </div>
+      </section>
 
-    <section id="workflow" class="section">
-      <h2>How the application works</h2>
-      <p>
-        tinhot24h is not a public social network and does not host user accounts. It is a private desktop production tool
-        operated by the channel owner. The workflow is intentionally simple and review-based.
-      </p>
-      <div class="steps">
-        <div class="step"><div class="num">1</div><strong>Select content</strong><p>The operator provides a source link or chooses a news/trend topic for a short video.</p></div>
-        <div class="step"><div class="num">2</div><strong>Create video</strong><p>The tool generates narration, subtitles, overlays, and a rendered video file locally.</p></div>
-        <div class="step"><div class="num">3</div><strong>Review output</strong><p>The creator checks the content, title, description, and compliance before upload.</p></div>
-        <div class="step"><div class="num">4</div><strong>Upload draft</strong><p>When authorized, the TikTok API uploads the creator-approved file to the creator's TikTok account.</p></div>
-      </div>
-    </section>
+      <section id="tiktok-api" class="section">
+        <h2>TikTok products and scopes</h2>
+        <ul>
+          <li><code>Login Kit</code> lets the creator authorize their own TikTok account through OAuth.</li>
+          <li><code>user.info.basic</code> is used only to confirm the authorized creator account.</li>
+          <li><code>Content Posting API</code> sends the reviewed local video file to TikTok.</li>
+          <li><code>video.upload</code> is used to upload creator-approved videos as drafts, not to publish public videos automatically.</li>
+        </ul>
+      </section>
 
-    <section id="tiktok" class="section">
-      <h2>TikTok API integration</h2>
-      <p>
-        The app uses TikTok Login Kit so the channel owner can authorize their own TikTok account.
-        It uses the Content Posting API only to upload videos created by the owner as drafts for further review in TikTok.
-      </p>
-      <ul>
-        <li><code>user.info.basic</code> is used to confirm the authorized TikTok account.</li>
-        <li><code>video.upload</code> is used to upload creator-approved video files as TikTok drafts.</li>
-        <li>The app does not automatically post public content without the creator's review.</li>
-        <li>The app does not sell data, read private third-party data, or manage other users' accounts.</li>
-      </ul>
-    </section>
-
-    <section class="section">
-      <h2>Business and support information</h2>
-      <p>
-        Operator: Lướt Mạng Có Chuyện / tinhot24h. This site documents the purpose of the desktop application,
-        its TikTok integration, and the policies required for platform review.
-      </p>
-      <p>
-        Contact: through the official “Lướt Mạng Có Chuyện” channel and the public pages linked from this website.
-        If a production support email or custom domain is added later, this page should be updated before resubmitting the app for review.
-      </p>
-    </section>
+      <section class="section">
+        <h2>Data and publishing controls</h2>
+        <p>
+          tinhot24h does not sell personal data, does not read private third-party content, and does not manage other users' accounts.
+          The app stores OAuth tokens locally for the creator-operated workflow and uses them only for the authorized upload action.
+        </p>
+        <p>
+          Official website: <a href="https://dxuanphuong41-sketch.github.io/tinhot24h-pages/">https://dxuanphuong41-sketch.github.io/tinhot24h-pages/</a>
+        </p>
+      </section>
+    </div>
 
     <footer class="footer">
-      <p>© 2026 tinhot24h. Related documents: <a href="./privacy.html">Privacy Policy</a> · <a href="./terms.html">Terms of Service</a>.</p>
+      <p>© 2026 tinhot24h. <a href="./privacy.html">Privacy Policy</a> · <a href="./terms.html">Terms of Service</a></p>
     </footer>
   </main>
+
+  <script>
+    const DEFAULT_SCOPE = "user.info.basic,video.upload";
+    const clientKey = document.getElementById("clientKey");
+    const redirectUri = document.getElementById("redirectUri");
+    const loginBtn = document.getElementById("loginBtn");
+    const saveBtn = document.getElementById("saveBtn");
+    const uploadBtn = document.getElementById("uploadBtn");
+    const authStatus = document.getElementById("authStatus");
+    const uploadStatus = document.getElementById("uploadStatus");
+    const progressBar = document.getElementById("progressBar");
+
+    clientKey.value = localStorage.getItem("tinhot24h_tiktok_client_key") || "";
+    redirectUri.value = localStorage.getItem("tinhot24h_tiktok_redirect_uri") || redirectUri.value;
+
+    function randomState() {
+      const bytes = new Uint8Array(16);
+      crypto.getRandomValues(bytes);
+      return Array.from(bytes, b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    function saveSettings() {
+      localStorage.setItem("tinhot24h_tiktok_client_key", clientKey.value.trim());
+      localStorage.setItem("tinhot24h_tiktok_redirect_uri", redirectUri.value.trim());
+      authStatus.textContent = "Settings saved";
+    }
+
+    saveBtn.addEventListener("click", saveSettings);
+
+    loginBtn.addEventListener("click", () => {
+      const key = clientKey.value.trim();
+      const uri = redirectUri.value.trim();
+      if (!key || !uri) {
+        authStatus.textContent = "Client Key required";
+        clientKey.focus();
+        return;
+      }
+      saveSettings();
+      const params = new URLSearchParams({
+        client_key: key,
+        response_type: "code",
+        scope: DEFAULT_SCOPE,
+        redirect_uri: uri,
+        state: randomState()
+      });
+      window.location.href = "https://www.tiktok.com/v2/auth/authorize/?" + params.toString();
+    });
+
+    uploadBtn.addEventListener("click", () => {
+      uploadBtn.disabled = true;
+      authStatus.textContent = "Creator approved";
+      uploadStatus.textContent = "Preparing draft upload request...";
+      progressBar.style.width = "20%";
+      setTimeout(() => {
+        uploadStatus.textContent = "Uploading video file to TikTok draft endpoint...";
+        progressBar.style.width = "68%";
+      }, 500);
+      setTimeout(() => {
+        uploadStatus.textContent = "Draft upload flow complete for demo. Production upload runs in the desktop bot.";
+        progressBar.style.width = "100%";
+        uploadBtn.disabled = false;
+      }, 1200);
+    });
+  </script>
 </body>
 </html>
